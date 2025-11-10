@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package pulsewatch;
+
+// Sets the Go package name to pulsewatch
+option go_package = "github.com/ydkulks/PulseWatch/pulsewatch";
+
+service PulseWatch {
+  rpc GetPulse (PulseRequest) returns (PulseResponse);
+}
+
+message PulseRequest {
+  string name = 1;
+}
+
+message PulseResponse {
+  string message = 1;
+}
