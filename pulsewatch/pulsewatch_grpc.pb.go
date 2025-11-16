@@ -22,6 +22,7 @@ const (
 	PulseWatch_GetPulse_FullMethodName          = "/pulsewatch.PulseWatch/GetPulse"
 	PulseWatch_ServerStreamPulse_FullMethodName = "/pulsewatch.PulseWatch/ServerStreamPulse"
 	PulseWatch_ClientStreamPulse_FullMethodName = "/pulsewatch.PulseWatch/ClientStreamPulse"
+	PulseWatch_BidiStreamPulse_FullMethodName   = "/pulsewatch.PulseWatch/BidiStreamPulse"
 )
 
 // PulseWatchClient is the client API for PulseWatch service.
@@ -31,6 +32,7 @@ type PulseWatchClient interface {
 	GetPulse(ctx context.Context, in *PulseRequest, opts ...grpc.CallOption) (*PulseResponse, error)
 	ServerStreamPulse(ctx context.Context, in *PulseRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PulseResponse], error)
 	ClientStreamPulse(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[PulseRequest, PulseResponse], error)
+	BidiStreamPulse(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[PulseRequest, PulseResponse], error)
 }
 
 type pulseWatchClient struct {
@@ -83,6 +85,19 @@ func (c *pulseWatchClient) ClientStreamPulse(ctx context.Context, opts ...grpc.C
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type PulseWatch_ClientStreamPulseClient = grpc.ClientStreamingClient[PulseRequest, PulseResponse]
 
+func (c *pulseWatchClient) BidiStreamPulse(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[PulseRequest, PulseResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PulseWatch_ServiceDesc.Streams[2], PulseWatch_BidiStreamPulse_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[PulseRequest, PulseResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PulseWatch_BidiStreamPulseClient = grpc.BidiStreamingClient[PulseRequest, PulseResponse]
+
 // PulseWatchServer is the server API for PulseWatch service.
 // All implementations must embed UnimplementedPulseWatchServer
 // for forward compatibility.
@@ -90,6 +105,7 @@ type PulseWatchServer interface {
 	GetPulse(context.Context, *PulseRequest) (*PulseResponse, error)
 	ServerStreamPulse(*PulseRequest, grpc.ServerStreamingServer[PulseResponse]) error
 	ClientStreamPulse(grpc.ClientStreamingServer[PulseRequest, PulseResponse]) error
+	BidiStreamPulse(grpc.BidiStreamingServer[PulseRequest, PulseResponse]) error
 	mustEmbedUnimplementedPulseWatchServer()
 }
 
@@ -108,6 +124,9 @@ func (UnimplementedPulseWatchServer) ServerStreamPulse(*PulseRequest, grpc.Serve
 }
 func (UnimplementedPulseWatchServer) ClientStreamPulse(grpc.ClientStreamingServer[PulseRequest, PulseResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method ClientStreamPulse not implemented")
+}
+func (UnimplementedPulseWatchServer) BidiStreamPulse(grpc.BidiStreamingServer[PulseRequest, PulseResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method BidiStreamPulse not implemented")
 }
 func (UnimplementedPulseWatchServer) mustEmbedUnimplementedPulseWatchServer() {}
 func (UnimplementedPulseWatchServer) testEmbeddedByValue()                    {}
@@ -166,6 +185,13 @@ func _PulseWatch_ClientStreamPulse_Handler(srv interface{}, stream grpc.ServerSt
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type PulseWatch_ClientStreamPulseServer = grpc.ClientStreamingServer[PulseRequest, PulseResponse]
 
+func _PulseWatch_BidiStreamPulse_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PulseWatchServer).BidiStreamPulse(&grpc.GenericServerStream[PulseRequest, PulseResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PulseWatch_BidiStreamPulseServer = grpc.BidiStreamingServer[PulseRequest, PulseResponse]
+
 // PulseWatch_ServiceDesc is the grpc.ServiceDesc for PulseWatch service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -187,6 +213,12 @@ var PulseWatch_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ClientStreamPulse",
 			Handler:       _PulseWatch_ClientStreamPulse_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "BidiStreamPulse",
+			Handler:       _PulseWatch_BidiStreamPulse_Handler,
+			ServerStreams: true,
 			ClientStreams: true,
 		},
 	},

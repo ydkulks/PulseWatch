@@ -48,6 +48,23 @@ func (s *server) ClientStreamPulse(stream grpc.ClientStreamingServer[pb.PulseReq
 	}
 }
 
+func (s *server) BidiStreamPulse(stream grpc.BidiStreamingServer[pb.PulseRequest, pb.PulseResponse]) error {
+	for {
+		pulseReq, err := stream.Recv()
+		if err == io.EOF {
+			return stream.Send(&pb.PulseResponse{Message: "Goodbye"})
+		}
+		if err != nil {
+			return err
+		}
+		log.Printf("Received: %v", pulseReq.Name)
+		message := fmt.Sprintf("Hello %s", pulseReq.Name)
+		if err := stream.Send(&pb.PulseResponse{Message: message}); err != nil {
+			return err
+		}
+	}
+}
+
 func main() {
 	listen, err := net.Listen("tcp", ":8080")
 	if err != nil {
