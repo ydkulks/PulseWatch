@@ -3,8 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"net"
+	"strings"
 
 	pb "github.com/ydkulks/PulseWatch/pulsewatch"
 	"google.golang.org/grpc"
@@ -16,7 +18,7 @@ type server struct {
 
 func (s *server) GetPulse(pulseContext context.Context, pulseReq *pb.PulseRequest) (*pb.PulseResponse, error) {
 	log.Printf("Received: %v", pulseReq.Name)
-	return &pb.PulseResponse{Message: "Hello " + pulseReq.Name},nil
+	return &pb.PulseResponse{Message: "Hello " + pulseReq.Name}, nil
 }
 
 func (s *server) ServerStreamPulse(pulseReq *pb.PulseRequest, stream grpc.ServerStreamingServer[pb.PulseResponse]) error {
@@ -28,6 +30,22 @@ func (s *server) ServerStreamPulse(pulseReq *pb.PulseRequest, stream grpc.Server
 		}
 	}
 	return nil
+}
+
+func (s *server) ClientStreamPulse(stream grpc.ClientStreamingServer[pb.PulseRequest, pb.PulseResponse]) error {
+	var names []string
+	for {
+		pulseReq, err := stream.Recv()
+		if err == io.EOF {
+			message := fmt.Sprintf("Goodbye %s", strings.Join(names, ", "))
+			return stream.SendAndClose(&pb.PulseResponse{Message: message})
+		}
+		if err != nil {
+			return err
+		}
+		names = append(names, pulseReq.Name)
+		log.Printf("Received: %v", pulseReq.Name)
+	}
 }
 
 func main() {
@@ -44,4 +62,3 @@ func main() {
 		log.Fatalf("Failed to serve : %s", err)
 	}
 }
-

@@ -118,11 +118,12 @@ const file_pulsewatch_pulsewatch_proto_rawDesc = "" +
 	"\fPulseRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\")\n" +
 	"\rPulseResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\x99\x01\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xe5\x01\n" +
 	"\n" +
 	"PulseWatch\x12?\n" +
 	"\bGetPulse\x12\x18.pulsewatch.PulseRequest\x1a\x19.pulsewatch.PulseResponse\x12J\n" +
-	"\x11ServerStreamPulse\x12\x18.pulsewatch.PulseRequest\x1a\x19.pulsewatch.PulseResponse0\x01B*Z(github.com/ydkulks/PulseWatch/pulsewatchb\x06proto3"
+	"\x11ServerStreamPulse\x12\x18.pulsewatch.PulseRequest\x1a\x19.pulsewatch.PulseResponse0\x01\x12J\n" +
+	"\x11ClientStreamPulse\x12\x18.pulsewatch.PulseRequest\x1a\x19.pulsewatch.PulseResponse(\x01B*Z(github.com/ydkulks/PulseWatch/pulsewatchb\x06proto3"
 
 var (
 	file_pulsewatch_pulsewatch_proto_rawDescOnce sync.Once
@@ -144,10 +145,12 @@ var file_pulsewatch_pulsewatch_proto_goTypes = []any{
 var file_pulsewatch_pulsewatch_proto_depIdxs = []int32{
 	0, // 0: pulsewatch.PulseWatch.GetPulse:input_type -> pulsewatch.PulseRequest
 	0, // 1: pulsewatch.PulseWatch.ServerStreamPulse:input_type -> pulsewatch.PulseRequest
-	1, // 2: pulsewatch.PulseWatch.GetPulse:output_type -> pulsewatch.PulseResponse
-	1, // 3: pulsewatch.PulseWatch.ServerStreamPulse:output_type -> pulsewatch.PulseResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	0, // 2: pulsewatch.PulseWatch.ClientStreamPulse:input_type -> pulsewatch.PulseRequest
+	1, // 3: pulsewatch.PulseWatch.GetPulse:output_type -> pulsewatch.PulseResponse
+	1, // 4: pulsewatch.PulseWatch.ServerStreamPulse:output_type -> pulsewatch.PulseResponse
+	1, // 5: pulsewatch.PulseWatch.ClientStreamPulse:output_type -> pulsewatch.PulseResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

@@ -8,6 +8,7 @@ option go_package = "github.com/ydkulks/PulseWatch/pulsewatch";
 service PulseWatch {
   rpc GetPulse (PulseRequest) returns (PulseResponse);
   rpc ServerStreamPulse (PulseRequest) returns (stream PulseResponse);
+  rpc ClientStreamPulse (stream PulseRequest) returns (PulseResponse);
 }
 
 message PulseRequest {
