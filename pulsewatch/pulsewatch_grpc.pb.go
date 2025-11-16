@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PulseWatch_GetPulse_FullMethodName = "/pulsewatch.PulseWatch/GetPulse"
+	PulseWatch_GetPulse_FullMethodName          = "/pulsewatch.PulseWatch/GetPulse"
+	PulseWatch_ServerStreamPulse_FullMethodName = "/pulsewatch.PulseWatch/ServerStreamPulse"
 )
 
 // PulseWatchClient is the client API for PulseWatch service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PulseWatchClient interface {
 	GetPulse(ctx context.Context, in *PulseRequest, opts ...grpc.CallOption) (*PulseResponse, error)
+	ServerStreamPulse(ctx context.Context, in *PulseRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PulseResponse], error)
 }
 
 type pulseWatchClient struct {
@@ -47,11 +49,31 @@ func (c *pulseWatchClient) GetPulse(ctx context.Context, in *PulseRequest, opts 
 	return out, nil
 }
 
+func (c *pulseWatchClient) ServerStreamPulse(ctx context.Context, in *PulseRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PulseResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PulseWatch_ServiceDesc.Streams[0], PulseWatch_ServerStreamPulse_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[PulseRequest, PulseResponse]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PulseWatch_ServerStreamPulseClient = grpc.ServerStreamingClient[PulseResponse]
+
 // PulseWatchServer is the server API for PulseWatch service.
 // All implementations must embed UnimplementedPulseWatchServer
 // for forward compatibility.
 type PulseWatchServer interface {
 	GetPulse(context.Context, *PulseRequest) (*PulseResponse, error)
+	ServerStreamPulse(*PulseRequest, grpc.ServerStreamingServer[PulseResponse]) error
 	mustEmbedUnimplementedPulseWatchServer()
 }
 
@@ -64,6 +86,9 @@ type UnimplementedPulseWatchServer struct{}
 
 func (UnimplementedPulseWatchServer) GetPulse(context.Context, *PulseRequest) (*PulseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPulse not implemented")
+}
+func (UnimplementedPulseWatchServer) ServerStreamPulse(*PulseRequest, grpc.ServerStreamingServer[PulseResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method ServerStreamPulse not implemented")
 }
 func (UnimplementedPulseWatchServer) mustEmbedUnimplementedPulseWatchServer() {}
 func (UnimplementedPulseWatchServer) testEmbeddedByValue()                    {}
@@ -104,6 +129,17 @@ func _PulseWatch_GetPulse_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PulseWatch_ServerStreamPulse_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(PulseRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PulseWatchServer).ServerStreamPulse(m, &grpc.GenericServerStream[PulseRequest, PulseResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PulseWatch_ServerStreamPulseServer = grpc.ServerStreamingServer[PulseResponse]
+
 // PulseWatch_ServiceDesc is the grpc.ServiceDesc for PulseWatch service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -116,6 +152,12 @@ var PulseWatch_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PulseWatch_GetPulse_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ServerStreamPulse",
+			Handler:       _PulseWatch_ServerStreamPulse_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "pulsewatch/pulsewatch.proto",
 }

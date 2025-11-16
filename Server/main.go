@@ -19,12 +19,23 @@ func (s *server) GetPulse(pulseContext context.Context, pulseReq *pb.PulseReques
 	return &pb.PulseResponse{Message: "Hello " + pulseReq.Name},nil
 }
 
+func (s *server) ServerStreamPulse(pulseReq *pb.PulseRequest, stream grpc.ServerStreamingServer[pb.PulseResponse]) error {
+	for i := 0; i < 10; i++ {
+		log.Printf("Received: %v", pulseReq.Name)
+		message := fmt.Sprintf("Hello %s, count: %d", pulseReq.Name, i)
+		if err := stream.Send(&pb.PulseResponse{Message: message}); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func main() {
 	listen, err := net.Listen("tcp", ":8080")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	fmt.Println("Server listening on port ", 8080)
+	fmt.Println("Server listening on port ", listen.Addr().String())
 
 	pulseServer := grpc.NewServer()
 	pb.RegisterPulseWatchServer(pulseServer, &server{})
