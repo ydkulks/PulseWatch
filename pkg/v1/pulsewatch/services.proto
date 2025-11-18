@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pulsewatch;
+
+option go_package = "github.com/ydkulks/PulseWatch/pkg/v1/pulsewatch";
+
+service PulseWatch {
+  rpc GetPulse (GetPulseRequest) returns (GetPulseResponse);
+}
+
+message GetPulseRequest {
+  string name = 1;
+}
+
+message GetPulseResponse {
+  string message = 1;
+}
