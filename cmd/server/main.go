@@ -24,45 +24,54 @@ func (s *server) GetPulse(ctx context.Context, req *pb.GetPulseRequest) (*pb.Get
 func (s *server) WatchProcess(req *pb.WatchProcessRequest, res grpc.ServerStreamingServer[pb.WatchProcessResponse]) error {
 	process := pulse.Process{Pid: req.Pid}
 	log.Println("Process ID: ", process)
+	ctx := res.Context()
+	ticker := time.NewTicker(5 * time.Second)
+	defer ticker.Stop()
+
 	for {
-		exists, err := process.ProcessExists()
-		log.Println("Process Status: ", exists)
-		if err != nil {
-			log.Printf("Error checking process existence: %v", err)
-			return err
-		}
+		select {
+		case <-ticker.C:
+			exists, err := process.ProcessExists()
+			log.Println("Process Status: ", exists)
+			if err != nil {
+				log.Printf("Error checking process existence: %v", err)
+				return err
+			}
 
-		if !exists {
-			return nil
-		}
+			if !exists {
+				return nil
+			}
 
-		osMetrics, err := process.GetOSMetrics()
-		if err != nil {
-			log.Printf("Error getting OS metrics: %v", err)
-			return err
+			osMetrics, err := process.GetOSMetrics()
+			if err != nil {
+				log.Printf("Error getting OS metrics: %v", err)
+				return err
+			}
+			processMetrics, err := process.GetProcessMetrics()
+			if err != nil {
+				log.Printf("Error getting process metrics: %v", err)
+				return err
+			}
+			if err := res.Send(&pb.WatchProcessResponse{
+				Status: exists,
+				Pid:    req.Pid,
+				OsMetrics: &pb.OsMetrics{
+					Host:          osMetrics.Host,
+					CpuPercentage: osMetrics.CpuPercentage,
+				},
+				ProcessMetrics: &pb.ProcessMetrics{
+					Name:          processMetrics.Name,
+					Status:        processMetrics.Status,
+					MemoryInfo:    processMetrics.MemoryInfo,
+					CpuPercentage: processMetrics.CpuPercentage,
+				},
+			}); err != nil {
+				return err
+			}
+		case <-ctx.Done():
+			log.Printf("Client disconnected: %v", ctx.Err())
+			return ctx.Err()
 		}
-		processMetrics, err := process.GetProcessMetrics()
-		if err != nil {
-			log.Printf("Error getting process metrics: %v", err)
-			return err
-		}
-		if err := res.Send(&pb.WatchProcessResponse{
-			Status: exists,
-			Pid:    req.Pid,
-			OsMetrics: &pb.OsMetrics{
-				Host:          osMetrics.Host,
-				CpuPercentage: osMetrics.CpuPercentage,
-			},
-			ProcessMetrics: &pb.ProcessMetrics{
-				Name:          processMetrics.Name,
-				Status:        processMetrics.Status,
-				MemoryInfo:    processMetrics.MemoryInfo,
-				CpuPercentage: processMetrics.CpuPercentage,
-			},
-		}); err != nil {
-			return err
-		}
-		time.Sleep(time.Second * 5)
 	}
 }
 

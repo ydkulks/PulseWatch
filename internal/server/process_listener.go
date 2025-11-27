@@ -24,7 +24,7 @@ func (p Process) ProcessExists() (bool, error) {
 	return exists, nil
 }
 
-func (p Process) GetMemInfo() error {
+func GetMemInfo() error {
 	v, err := mem.VirtualMemory()
 	if err != nil {
 		return fmt.Errorf("failed to get virtual memory: %v", err)
