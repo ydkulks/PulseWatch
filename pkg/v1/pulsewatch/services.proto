@@ -6,6 +6,7 @@ option go_package = "github.com/ydkulks/PulseWatch/pkg/v1/pulsewatch";
 
 service PulseWatch {
   rpc GetPulse (GetPulseRequest) returns (GetPulseResponse);
+  rpc WatchProcess (WatchProcessRequest) returns (stream WatchProcessResponse);
 }
 
 message GetPulseRequest {
@@ -14,4 +15,25 @@ message GetPulseRequest {
 
 message GetPulseResponse {
   string message = 1;
+}
+
+message WatchProcessRequest {
+  int32 pid = 1;
+}
+
+message osMetrics {
+  string host = 1;
+  repeated float cpuPercentage = 2;
+}
+message processMetrics {
+  string name = 1;
+  repeated string status = 2;
+  uint64 memoryInfo = 3;
+  float cpuPercentage = 4;
+}
+message WatchProcessResponse {
+  bool status = 1;
+  int32 pid = 2;
+  osMetrics osMetrics = 3;
+  processMetrics processMetrics = 4;
 }

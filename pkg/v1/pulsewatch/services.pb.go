@@ -109,6 +109,238 @@ func (x *GetPulseResponse) GetMessage() string {
 	return ""
 }
 
+type WatchProcessRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Pid           int32                  `protobuf:"varint,1,opt,name=pid,proto3" json:"pid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WatchProcessRequest) Reset() {
+	*x = WatchProcessRequest{}
+	mi := &file_pkg_v1_pulsewatch_services_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WatchProcessRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WatchProcessRequest) ProtoMessage() {}
+
+func (x *WatchProcessRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_v1_pulsewatch_services_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WatchProcessRequest.ProtoReflect.Descriptor instead.
+func (*WatchProcessRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_v1_pulsewatch_services_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *WatchProcessRequest) GetPid() int32 {
+	if x != nil {
+		return x.Pid
+	}
+	return 0
+}
+
+type OsMetrics struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Host          string                 `protobuf:"bytes,1,opt,name=host,proto3" json:"host,omitempty"`
+	CpuPercentage []float32              `protobuf:"fixed32,2,rep,packed,name=cpuPercentage,proto3" json:"cpuPercentage,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OsMetrics) Reset() {
+	*x = OsMetrics{}
+	mi := &file_pkg_v1_pulsewatch_services_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OsMetrics) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OsMetrics) ProtoMessage() {}
+
+func (x *OsMetrics) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_v1_pulsewatch_services_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OsMetrics.ProtoReflect.Descriptor instead.
+func (*OsMetrics) Descriptor() ([]byte, []int) {
+	return file_pkg_v1_pulsewatch_services_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *OsMetrics) GetHost() string {
+	if x != nil {
+		return x.Host
+	}
+	return ""
+}
+
+func (x *OsMetrics) GetCpuPercentage() []float32 {
+	if x != nil {
+		return x.CpuPercentage
+	}
+	return nil
+}
+
+type ProcessMetrics struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Status        []string               `protobuf:"bytes,2,rep,name=status,proto3" json:"status,omitempty"`
+	MemoryInfo    uint64                 `protobuf:"varint,3,opt,name=memoryInfo,proto3" json:"memoryInfo,omitempty"`
+	CpuPercentage float32                `protobuf:"fixed32,4,opt,name=cpuPercentage,proto3" json:"cpuPercentage,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProcessMetrics) Reset() {
+	*x = ProcessMetrics{}
+	mi := &file_pkg_v1_pulsewatch_services_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProcessMetrics) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProcessMetrics) ProtoMessage() {}
+
+func (x *ProcessMetrics) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_v1_pulsewatch_services_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProcessMetrics.ProtoReflect.Descriptor instead.
+func (*ProcessMetrics) Descriptor() ([]byte, []int) {
+	return file_pkg_v1_pulsewatch_services_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ProcessMetrics) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ProcessMetrics) GetStatus() []string {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
+func (x *ProcessMetrics) GetMemoryInfo() uint64 {
+	if x != nil {
+		return x.MemoryInfo
+	}
+	return 0
+}
+
+func (x *ProcessMetrics) GetCpuPercentage() float32 {
+	if x != nil {
+		return x.CpuPercentage
+	}
+	return 0
+}
+
+type WatchProcessResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Status         bool                   `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Pid            int32                  `protobuf:"varint,2,opt,name=pid,proto3" json:"pid,omitempty"`
+	OsMetrics      *OsMetrics             `protobuf:"bytes,3,opt,name=osMetrics,proto3" json:"osMetrics,omitempty"`
+	ProcessMetrics *ProcessMetrics        `protobuf:"bytes,4,opt,name=processMetrics,proto3" json:"processMetrics,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *WatchProcessResponse) Reset() {
+	*x = WatchProcessResponse{}
+	mi := &file_pkg_v1_pulsewatch_services_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WatchProcessResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WatchProcessResponse) ProtoMessage() {}
+
+func (x *WatchProcessResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_v1_pulsewatch_services_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WatchProcessResponse.ProtoReflect.Descriptor instead.
+func (*WatchProcessResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_v1_pulsewatch_services_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *WatchProcessResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+func (x *WatchProcessResponse) GetPid() int32 {
+	if x != nil {
+		return x.Pid
+	}
+	return 0
+}
+
+func (x *WatchProcessResponse) GetOsMetrics() *OsMetrics {
+	if x != nil {
+		return x.OsMetrics
+	}
+	return nil
+}
+
+func (x *WatchProcessResponse) GetProcessMetrics() *ProcessMetrics {
+	if x != nil {
+		return x.ProcessMetrics
+	}
+	return nil
+}
+
 var File_pkg_v1_pulsewatch_services_proto protoreflect.FileDescriptor
 
 const file_pkg_v1_pulsewatch_services_proto_rawDesc = "" +
@@ -118,10 +350,28 @@ const file_pkg_v1_pulsewatch_services_proto_rawDesc = "" +
 	"\x0fGetPulseRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\",\n" +
 	"\x10GetPulseResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2S\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"'\n" +
+	"\x13WatchProcessRequest\x12\x10\n" +
+	"\x03pid\x18\x01 \x01(\x05R\x03pid\"E\n" +
+	"\tosMetrics\x12\x12\n" +
+	"\x04host\x18\x01 \x01(\tR\x04host\x12$\n" +
+	"\rcpuPercentage\x18\x02 \x03(\x02R\rcpuPercentage\"\x82\x01\n" +
+	"\x0eprocessMetrics\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x16\n" +
+	"\x06status\x18\x02 \x03(\tR\x06status\x12\x1e\n" +
+	"\n" +
+	"memoryInfo\x18\x03 \x01(\x04R\n" +
+	"memoryInfo\x12$\n" +
+	"\rcpuPercentage\x18\x04 \x01(\x02R\rcpuPercentage\"\xb9\x01\n" +
+	"\x14WatchProcessResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\bR\x06status\x12\x10\n" +
+	"\x03pid\x18\x02 \x01(\x05R\x03pid\x123\n" +
+	"\tosMetrics\x18\x03 \x01(\v2\x15.pulsewatch.osMetricsR\tosMetrics\x12B\n" +
+	"\x0eprocessMetrics\x18\x04 \x01(\v2\x1a.pulsewatch.processMetricsR\x0eprocessMetrics2\xa8\x01\n" +
 	"\n" +
 	"PulseWatch\x12E\n" +
-	"\bGetPulse\x12\x1b.pulsewatch.GetPulseRequest\x1a\x1c.pulsewatch.GetPulseResponseB1Z/github.com/ydkulks/PulseWatch/pkg/v1/pulsewatchb\x06proto3"
+	"\bGetPulse\x12\x1b.pulsewatch.GetPulseRequest\x1a\x1c.pulsewatch.GetPulseResponse\x12S\n" +
+	"\fWatchProcess\x12\x1f.pulsewatch.WatchProcessRequest\x1a .pulsewatch.WatchProcessResponse0\x01B1Z/github.com/ydkulks/PulseWatch/pkg/v1/pulsewatchb\x06proto3"
 
 var (
 	file_pkg_v1_pulsewatch_services_proto_rawDescOnce sync.Once
@@ -135,19 +385,27 @@ func file_pkg_v1_pulsewatch_services_proto_rawDescGZIP() []byte {
 	return file_pkg_v1_pulsewatch_services_proto_rawDescData
 }
 
-var file_pkg_v1_pulsewatch_services_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_pkg_v1_pulsewatch_services_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_pkg_v1_pulsewatch_services_proto_goTypes = []any{
-	(*GetPulseRequest)(nil),  // 0: pulsewatch.GetPulseRequest
-	(*GetPulseResponse)(nil), // 1: pulsewatch.GetPulseResponse
+	(*GetPulseRequest)(nil),      // 0: pulsewatch.GetPulseRequest
+	(*GetPulseResponse)(nil),     // 1: pulsewatch.GetPulseResponse
+	(*WatchProcessRequest)(nil),  // 2: pulsewatch.WatchProcessRequest
+	(*OsMetrics)(nil),            // 3: pulsewatch.osMetrics
+	(*ProcessMetrics)(nil),       // 4: pulsewatch.processMetrics
+	(*WatchProcessResponse)(nil), // 5: pulsewatch.WatchProcessResponse
 }
 var file_pkg_v1_pulsewatch_services_proto_depIdxs = []int32{
-	0, // 0: pulsewatch.PulseWatch.GetPulse:input_type -> pulsewatch.GetPulseRequest
-	1, // 1: pulsewatch.PulseWatch.GetPulse:output_type -> pulsewatch.GetPulseResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3, // 0: pulsewatch.WatchProcessResponse.osMetrics:type_name -> pulsewatch.osMetrics
+	4, // 1: pulsewatch.WatchProcessResponse.processMetrics:type_name -> pulsewatch.processMetrics
+	0, // 2: pulsewatch.PulseWatch.GetPulse:input_type -> pulsewatch.GetPulseRequest
+	2, // 3: pulsewatch.PulseWatch.WatchProcess:input_type -> pulsewatch.WatchProcessRequest
+	1, // 4: pulsewatch.PulseWatch.GetPulse:output_type -> pulsewatch.GetPulseResponse
+	5, // 5: pulsewatch.PulseWatch.WatchProcess:output_type -> pulsewatch.WatchProcessResponse
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_pkg_v1_pulsewatch_services_proto_init() }
@@ -161,7 +419,7 @@ func file_pkg_v1_pulsewatch_services_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pkg_v1_pulsewatch_services_proto_rawDesc), len(file_pkg_v1_pulsewatch_services_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
