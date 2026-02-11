@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package pulsewatch;
+package pulsewatch.v1;
 
 option go_package = "github.com/ydkulks/PulseWatch/pkg/v1/pulsewatch";
 
