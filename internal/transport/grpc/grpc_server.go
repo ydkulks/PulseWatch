@@ -8,11 +8,11 @@ import (
 	"github.com/ydkulks/PulseWatch/internal/config"
 	"github.com/ydkulks/PulseWatch/internal/repository"
 	"github.com/ydkulks/PulseWatch/internal/service"
-	pb "github.com/ydkulks/PulseWatch/pkg/v1/pulsewatch"
+	proto "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch"
 )
 
 type GRPCServer struct {
-	pb.UnimplementedPulseWatchServer
+	proto.UnimplementedPulseWatchServer
 	config  *config.Config
 	service service.PulseWatchService
 }
@@ -27,7 +27,7 @@ func NewGRPCServer(cfg *config.Config) *GRPCServer {
 	}
 }
 
-func (s *GRPCServer) GetPulse(ctx context.Context, req *pb.GetPulseRequest) (*pb.GetPulseResponse, error) {
+func (s *GRPCServer) GetPulse(ctx context.Context, req *proto.GetPulseRequest) (*proto.GetPulseResponse, error) {
 	log.Printf("GetPulse request received: name=%s", req.Name)
 
 	response, err := s.service.GetPulse(ctx, req)
@@ -40,7 +40,7 @@ func (s *GRPCServer) GetPulse(ctx context.Context, req *pb.GetPulseRequest) (*pb
 	return response, nil
 }
 
-func (s *GRPCServer) WatchProcess(req *pb.WatchProcessRequest, stream pb.PulseWatch_WatchProcessServer) error {
+func (s *GRPCServer) WatchProcess(req *proto.WatchProcessRequest, stream proto.PulseWatch_WatchProcessServer) error {
 	log.Printf("WatchProcess request received: pid=%d", req.Pid)
 
 	watcher, err := s.service.WatchProcess(stream.Context(), req)

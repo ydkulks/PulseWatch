@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.12.4
-// source: pkg/v1/pulsewatch/pulsewatch.proto
+// source: proto/v1/pulsewatch/pulsewatch.proto
 
 package pulsewatch
 
@@ -159,5 +159,5 @@ var PulseWatch_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "pkg/v1/pulsewatch/pulsewatch.proto",
+	Metadata: "proto/v1/pulsewatch/pulsewatch.proto",
 }

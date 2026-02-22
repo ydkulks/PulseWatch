@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pulsewatch.v1;
 
-option go_package = "github.com/ydkulks/PulseWatch/pkg/v1/pulsewatch";
+option go_package = "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch";
 
 service PulseWatch {
   rpc GetPulse (GetPulseRequest) returns (GetPulseResponse);

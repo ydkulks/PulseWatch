@@ -7,8 +7,8 @@ import (
 	"net"
 
 	"github.com/ydkulks/PulseWatch/internal/config"
-	"github.com/ydkulks/PulseWatch/internal/server"
-	pb "github.com/ydkulks/PulseWatch/pkg/v1/pulsewatch"
+	"github.com/ydkulks/PulseWatch/internal/transport/grpc"
+	proto "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch"
 	"google.golang.org/grpc"
 )
 
@@ -28,7 +28,7 @@ func main() {
 
 	// Create gRPC server instance and register service
 	pulseWatchService := grpc.NewServer()
-	pb.RegisterPulseWatchServer(pulseWatchService, grpcServer)
+	proto.RegisterPulseWatchServer(pulseWatchService, grpcServer)
 
 	// Start the gRPC server
 	err = pulseWatchService.Serve(listen)

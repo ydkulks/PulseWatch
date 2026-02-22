@@ -22,6 +22,7 @@ PulseWatch is a gRPC-based notification microservice that monitors multiple runn
         export PATH="$PATH:$(go env GOPATH)/bin"
         ```
 
+## Project Structure
 
 ```text
 .
@@ -34,8 +35,8 @@ PulseWatch is a gRPC-based notification microservice that monitors multiple runn
 │   ├── config/ (configuration management and environment variables)
 │   ├── repository/ (data access layer with repository pattern)
 │   ├── service/ (business logic and use case implementations)
-│   └── server/ (gRPC transport layer and request handling)
-├── pkg/
+│   └── transport/grpc/ (gRPC transport layer and request handling)
+├── proto/
 │   └── v1/
 │       └── pulsewatch/
 │           ├── pulsewatch.proto (gRPC service definition)

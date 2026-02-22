@@ -7,12 +7,12 @@ import (
 
 	"github.com/ydkulks/PulseWatch/internal/config"
 	"github.com/ydkulks/PulseWatch/internal/repository"
-	pb "github.com/ydkulks/PulseWatch/pkg/v1/pulsewatch"
+	proto "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch"
 )
 
 type PulseWatchService interface {
-	GetPulse(ctx context.Context, req *pb.GetPulseRequest) (*pb.GetPulseResponse, error)
-	WatchProcess(ctx context.Context, req *pb.WatchProcessRequest) (*ProcessWatcher, error)
+	GetPulse(ctx context.Context, req *proto.GetPulseRequest) (*proto.GetPulseResponse, error)
+	WatchProcess(ctx context.Context, req *proto.WatchProcessRequest) (*ProcessWatcher, error)
 }
 
 type pulseWatchService struct {
@@ -33,13 +33,13 @@ type ProcessWatcher struct {
 	ticker *time.Ticker
 }
 
-func (s *pulseWatchService) GetPulse(ctx context.Context, req *pb.GetPulseRequest) (*pb.GetPulseResponse, error) {
-	return &pb.GetPulseResponse{
+func (s *pulseWatchService) GetPulse(ctx context.Context, req *proto.GetPulseRequest) (*proto.GetPulseResponse, error) {
+	return &proto.GetPulseResponse{
 		Message: fmt.Sprintf("Hello %s - PulseWatch service is running", req.Name),
 	}, nil
 }
 
-func (s *pulseWatchService) WatchProcess(ctx context.Context, req *pb.WatchProcessRequest) (*ProcessWatcher, error) {
+func (s *pulseWatchService) WatchProcess(ctx context.Context, req *proto.WatchProcessRequest) (*ProcessWatcher, error) {
 	if req.Pid <= 0 {
 		return nil, fmt.Errorf("invalid PID: %d", req.Pid)
 	}
@@ -60,8 +60,8 @@ func (s *pulseWatchService) WatchProcess(ctx context.Context, req *pb.WatchProce
 	}, nil
 }
 
-func (pw *ProcessWatcher) Start(ctx context.Context, pid int32) <-chan *pb.WatchProcessResponse {
-	responseChan := make(chan *pb.WatchProcessResponse)
+func (pw *ProcessWatcher) Start(ctx context.Context, pid int32) <-chan *proto.WatchProcessResponse {
+	responseChan := make(chan *proto.WatchProcessResponse)
 
 	go func() {
 		defer close(responseChan)
@@ -89,7 +89,7 @@ func (pw *ProcessWatcher) Start(ctx context.Context, pid int32) <-chan *pb.Watch
 	return responseChan
 }
 
-func (pw *ProcessWatcher) getProcessResponse(pid int32) (*pb.WatchProcessResponse, error) {
+func (pw *ProcessWatcher) getProcessResponse(pid int32) (*proto.WatchProcessResponse, error) {
 	exists, err := pw.repo.ProcessExists(pid)
 	if err != nil {
 		return nil, fmt.Errorf("failed to check process existence: %w", err)
@@ -109,14 +109,14 @@ func (pw *ProcessWatcher) getProcessResponse(pid int32) (*pb.WatchProcessRespons
 		return nil, fmt.Errorf("failed to get process metrics: %w", err)
 	}
 
-	return &pb.WatchProcessResponse{
+	return &proto.WatchProcessResponse{
 		Status: exists,
 		Pid:    pid,
-		OsMetrics: &pb.OsMetrics{
+		OsMetrics: &proto.OsMetrics{
 			Host:          osMetrics.Host,
 			CpuPercentage: osMetrics.CpuPercentage,
 		},
-		ProcessMetrics: &pb.ProcessMetrics{
+		ProcessMetrics: &proto.ProcessMetrics{
 			Name:          processMetrics.Name,
 			Status:        processMetrics.Status,
 			MemoryInfo:    processMetrics.MemoryInfo,
