@@ -7,6 +7,7 @@
 package pulsewatch
 
 import (
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -279,6 +280,7 @@ type WatchProcessResponse struct {
 	Pid            int32                  `protobuf:"varint,2,opt,name=pid,proto3" json:"pid,omitempty"`
 	OsMetrics      *OsMetrics             `protobuf:"bytes,3,opt,name=osMetrics,proto3" json:"osMetrics,omitempty"`
 	ProcessMetrics *ProcessMetrics        `protobuf:"bytes,4,opt,name=processMetrics,proto3" json:"processMetrics,omitempty"`
+	Timestamp      *timestamp.Timestamp   `protobuf:"bytes,5,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -341,11 +343,18 @@ func (x *WatchProcessResponse) GetProcessMetrics() *ProcessMetrics {
 	return nil
 }
 
+func (x *WatchProcessResponse) GetTimestamp() *timestamp.Timestamp {
+	if x != nil {
+		return x.Timestamp
+	}
+	return nil
+}
+
 var File_proto_v1_pulsewatch_pulsewatch_proto protoreflect.FileDescriptor
 
 const file_proto_v1_pulsewatch_pulsewatch_proto_rawDesc = "" +
 	"\n" +
-	"$proto/v1/pulsewatch/pulsewatch.proto\x12\rpulsewatch.v1\"%\n" +
+	"$proto/v1/pulsewatch/pulsewatch.proto\x12\rpulsewatch.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"%\n" +
 	"\x0fGetPulseRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\",\n" +
 	"\x10GetPulseResponse\x12\x18\n" +
@@ -361,12 +370,13 @@ const file_proto_v1_pulsewatch_pulsewatch_proto_rawDesc = "" +
 	"\n" +
 	"memoryInfo\x18\x03 \x01(\x04R\n" +
 	"memoryInfo\x12$\n" +
-	"\rcpuPercentage\x18\x04 \x01(\x02R\rcpuPercentage\"\xbf\x01\n" +
+	"\rcpuPercentage\x18\x04 \x01(\x02R\rcpuPercentage\"\xf9\x01\n" +
 	"\x14WatchProcessResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\bR\x06status\x12\x10\n" +
 	"\x03pid\x18\x02 \x01(\x05R\x03pid\x126\n" +
 	"\tosMetrics\x18\x03 \x01(\v2\x18.pulsewatch.v1.osMetricsR\tosMetrics\x12E\n" +
-	"\x0eprocessMetrics\x18\x04 \x01(\v2\x1d.pulsewatch.v1.processMetricsR\x0eprocessMetrics2\xb4\x01\n" +
+	"\x0eprocessMetrics\x18\x04 \x01(\v2\x1d.pulsewatch.v1.processMetricsR\x0eprocessMetrics\x128\n" +
+	"\ttimestamp\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp2\xb4\x01\n" +
 	"\n" +
 	"PulseWatch\x12K\n" +
 	"\bGetPulse\x12\x1e.pulsewatch.v1.GetPulseRequest\x1a\x1f.pulsewatch.v1.GetPulseResponse\x12Y\n" +
@@ -392,19 +402,21 @@ var file_proto_v1_pulsewatch_pulsewatch_proto_goTypes = []any{
 	(*OsMetrics)(nil),            // 3: pulsewatch.v1.osMetrics
 	(*ProcessMetrics)(nil),       // 4: pulsewatch.v1.processMetrics
 	(*WatchProcessResponse)(nil), // 5: pulsewatch.v1.WatchProcessResponse
+	(*timestamp.Timestamp)(nil),  // 6: google.protobuf.Timestamp
 }
 var file_proto_v1_pulsewatch_pulsewatch_proto_depIdxs = []int32{
 	3, // 0: pulsewatch.v1.WatchProcessResponse.osMetrics:type_name -> pulsewatch.v1.osMetrics
 	4, // 1: pulsewatch.v1.WatchProcessResponse.processMetrics:type_name -> pulsewatch.v1.processMetrics
-	0, // 2: pulsewatch.v1.PulseWatch.GetPulse:input_type -> pulsewatch.v1.GetPulseRequest
-	2, // 3: pulsewatch.v1.PulseWatch.WatchProcess:input_type -> pulsewatch.v1.WatchProcessRequest
-	1, // 4: pulsewatch.v1.PulseWatch.GetPulse:output_type -> pulsewatch.v1.GetPulseResponse
-	5, // 5: pulsewatch.v1.PulseWatch.WatchProcess:output_type -> pulsewatch.v1.WatchProcessResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	6, // 2: pulsewatch.v1.WatchProcessResponse.timestamp:type_name -> google.protobuf.Timestamp
+	0, // 3: pulsewatch.v1.PulseWatch.GetPulse:input_type -> pulsewatch.v1.GetPulseRequest
+	2, // 4: pulsewatch.v1.PulseWatch.WatchProcess:input_type -> pulsewatch.v1.WatchProcessRequest
+	1, // 5: pulsewatch.v1.PulseWatch.GetPulse:output_type -> pulsewatch.v1.GetPulseResponse
+	5, // 6: pulsewatch.v1.PulseWatch.WatchProcess:output_type -> pulsewatch.v1.WatchProcessResponse
+	5, // [5:7] is the sub-list for method output_type
+	3, // [3:5] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_proto_v1_pulsewatch_pulsewatch_proto_init() }

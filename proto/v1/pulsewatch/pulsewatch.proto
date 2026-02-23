@@ -4,6 +4,8 @@ package pulsewatch.v1;
 
 option go_package = "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch";
 
+import "google/protobuf/timestamp.proto";
+
 service PulseWatch {
   rpc GetPulse (GetPulseRequest) returns (GetPulseResponse);
   rpc WatchProcess (WatchProcessRequest) returns (stream WatchProcessResponse);
@@ -36,4 +38,5 @@ message WatchProcessResponse {
   int32 pid = 2;
   osMetrics osMetrics = 3;
   processMetrics processMetrics = 4;
+  google.protobuf.Timestamp timestamp = 5;
 }

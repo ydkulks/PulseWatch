@@ -8,6 +8,7 @@ import (
 	"github.com/ydkulks/PulseWatch/internal/config"
 	"github.com/ydkulks/PulseWatch/internal/repository"
 	proto "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type PulseWatchService interface {
@@ -53,10 +54,13 @@ func (s *pulseWatchService) WatchProcess(ctx context.Context, req *proto.WatchPr
 		return nil, fmt.Errorf("process with PID %d does not exist", req.Pid)
 	}
 
+	intervalConfig := config.GetResponseInterval().Interval
+	interval := time.Duration(intervalConfig) * time.Second
+
 	return &ProcessWatcher{
 		config: s.config,
 		repo:   s.repo,
-		ticker: time.NewTicker(5 * time.Second),
+		ticker: time.NewTicker(interval),
 	}, nil
 }
 
@@ -122,5 +126,6 @@ func (pw *ProcessWatcher) getProcessResponse(pid int32) (*proto.WatchProcessResp
 			MemoryInfo:    processMetrics.MemoryInfo,
 			CpuPercentage: processMetrics.CpuPercentage,
 		},
+		Timestamp: timestamppb.Now(),
 	}, nil
 }

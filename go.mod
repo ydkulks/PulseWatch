@@ -3,6 +3,7 @@ module github.com/ydkulks/PulseWatch
 go 1.25.3
 
 require (
+	github.com/golang/protobuf v1.5.4
 	github.com/joho/godotenv v1.5.1
 	github.com/shirou/gopsutil/v4 v4.25.10
 	google.golang.org/grpc v1.76.0
