@@ -63,22 +63,22 @@ func (r *processRepository) GetProcessMetrics(pid int32) (*ProcessMetrics, error
 
 	status, err := p.Status()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get process status for PID %d: %w", pid, err)
+		status = []string{}
 	}
 
 	memoryInfo, err := p.MemoryInfo()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get memory info for PID %d: %w", pid, err)
+		memoryInfo = &process.MemoryInfoStat{}
 	}
 
 	name, err := p.Name()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get process name for PID %d: %w", pid, err)
+		name = ""
 	}
 
 	cpuPercentage, err := p.CPUPercent()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get CPU percentage for PID %d: %w", pid, err)
+		cpuPercentage = 0.00
 	}
 
 	return &ProcessMetrics{
@@ -93,17 +93,20 @@ func (r *processRepository) GetProcessMetrics(pid int32) (*ProcessMetrics, error
 func (r *processRepository) GetOSMetrics() (*OSMetrics, error) {
 	hostUsers, err := host.Users()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get host users: %w", err)
+		hostUsers = make([]host.UserStat, 1)
+		hostUsers[0].User = "unknown"
 	}
 
 	if len(hostUsers) == 0 {
-		return nil, fmt.Errorf("no host users found")
+		hostUsers = make([]host.UserStat, 1)
+		hostUsers[0].User = "unknown"
 	}
 
+	// WARN: Hardcoded interval
 	interval := time.Second * 1
 	cpus, err := cpu.Percent(interval, false)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get CPU percent: %w", err)
+		cpus = make([]float64, 1)
 	}
 
 	cpuPercents := make([]float32, len(cpus))
@@ -121,7 +124,7 @@ func (r *processRepository) GetOSMetrics() (*OSMetrics, error) {
 func (r *processRepository) GetSystemMemory() (*SystemMemory, error) {
 	v, err := mem.VirtualMemory()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get virtual memory: %w", err)
+		v = &mem.VirtualMemoryStat{}
 	}
 
 	return &SystemMemory{

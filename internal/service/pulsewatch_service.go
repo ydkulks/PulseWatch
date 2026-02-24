@@ -3,10 +3,12 @@ package service
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/ydkulks/PulseWatch/internal/config"
 	"github.com/ydkulks/PulseWatch/internal/repository"
+	"github.com/ydkulks/PulseWatch/internal/service/notification"
 	proto "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -78,6 +80,14 @@ func (pw *ProcessWatcher) Start(ctx context.Context, pid int32) <-chan *proto.Wa
 			case <-pw.ticker.C:
 				response, err := pw.getProcessResponse(pid)
 				if err != nil {
+					log.Printf("Error getting process response: %v", err)
+					notification.DesktopNotification(fmt.Sprintf("Error getting process response: %v", err))
+					continue
+				}
+
+				if response == nil {
+					log.Printf("Process no longer exists")
+					notification.DesktopNotification("Process no longer exists")
 					return
 				}
 

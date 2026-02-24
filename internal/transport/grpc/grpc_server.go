@@ -8,6 +8,7 @@ import (
 	"github.com/ydkulks/PulseWatch/internal/config"
 	"github.com/ydkulks/PulseWatch/internal/repository"
 	"github.com/ydkulks/PulseWatch/internal/service"
+	"github.com/ydkulks/PulseWatch/internal/service/notification"
 	proto "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch"
 )
 
@@ -46,6 +47,7 @@ func (s *GRPCServer) WatchProcess(req *proto.WatchProcessRequest, stream proto.P
 	watcher, err := s.service.WatchProcess(stream.Context(), req)
 	if err != nil {
 		log.Printf("Error creating process watcher: %v", err)
+		notification.DesktopNotification(fmt.Sprintf("Error creating process watcher: %v", err))
 		return fmt.Errorf("failed to create process watcher: %w", err)
 	}
 
@@ -54,15 +56,18 @@ func (s *GRPCServer) WatchProcess(req *proto.WatchProcessRequest, stream proto.P
 	for response := range responseChan {
 		if response == nil {
 			log.Printf("Process %d stopped", req.Pid)
+			notification.DesktopNotification(fmt.Sprintf("Process %d stopped", req.Pid))
 			return nil
 		}
 
 		if err := stream.Send(response); err != nil {
 			log.Printf("Error sending stream response: %v", err)
+			notification.DesktopNotification(fmt.Sprintf("Error sending stream response: %v", err))
 			return fmt.Errorf("failed to send stream response: %w", err)
 		}
 	}
 
 	log.Printf("WatchProcess stream ended for pid=%d", req.Pid)
+	notification.DesktopNotification(fmt.Sprintf("WatchProcess stream ended for pid=%d", req.Pid))
 	return nil
 }
