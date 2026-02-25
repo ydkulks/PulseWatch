@@ -7,12 +7,16 @@ import (
 	"net"
 
 	"github.com/ydkulks/PulseWatch/internal/config"
+	"github.com/ydkulks/PulseWatch/internal/logger"
 	"github.com/ydkulks/PulseWatch/internal/transport/grpc"
 	proto "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch"
 	"google.golang.org/grpc"
 )
 
 func main() {
+	logFile := logger.Init()
+	defer logger.Close(logFile)
+
 	cfg := config.GetServerPort()
 
 	// Start listening with http server
