@@ -7,6 +7,7 @@
 package pulsewatch
 
 import (
+	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -22,50 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetPulseRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetPulseRequest) Reset() {
-	*x = GetPulseRequest{}
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetPulseRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetPulseRequest) ProtoMessage() {}
-
-func (x *GetPulseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetPulseRequest.ProtoReflect.Descriptor instead.
-func (*GetPulseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *GetPulseRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
 type GetPulseResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
@@ -75,7 +32,7 @@ type GetPulseResponse struct {
 
 func (x *GetPulseResponse) Reset() {
 	*x = GetPulseResponse{}
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[1]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -87,7 +44,7 @@ func (x *GetPulseResponse) String() string {
 func (*GetPulseResponse) ProtoMessage() {}
 
 func (x *GetPulseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[1]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -100,7 +57,7 @@ func (x *GetPulseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPulseResponse.ProtoReflect.Descriptor instead.
 func (*GetPulseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{1}
+	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *GetPulseResponse) GetMessage() string {
@@ -119,7 +76,7 @@ type WatchProcessRequest struct {
 
 func (x *WatchProcessRequest) Reset() {
 	*x = WatchProcessRequest{}
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[2]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -131,7 +88,7 @@ func (x *WatchProcessRequest) String() string {
 func (*WatchProcessRequest) ProtoMessage() {}
 
 func (x *WatchProcessRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[2]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -144,7 +101,7 @@ func (x *WatchProcessRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchProcessRequest.ProtoReflect.Descriptor instead.
 func (*WatchProcessRequest) Descriptor() ([]byte, []int) {
-	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{2}
+	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *WatchProcessRequest) GetPid() int32 {
@@ -164,7 +121,7 @@ type OsMetrics struct {
 
 func (x *OsMetrics) Reset() {
 	*x = OsMetrics{}
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[3]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -176,7 +133,7 @@ func (x *OsMetrics) String() string {
 func (*OsMetrics) ProtoMessage() {}
 
 func (x *OsMetrics) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[3]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -189,7 +146,7 @@ func (x *OsMetrics) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OsMetrics.ProtoReflect.Descriptor instead.
 func (*OsMetrics) Descriptor() ([]byte, []int) {
-	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{3}
+	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *OsMetrics) GetHost() string {
@@ -218,7 +175,7 @@ type ProcessMetrics struct {
 
 func (x *ProcessMetrics) Reset() {
 	*x = ProcessMetrics{}
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[4]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -230,7 +187,7 @@ func (x *ProcessMetrics) String() string {
 func (*ProcessMetrics) ProtoMessage() {}
 
 func (x *ProcessMetrics) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[4]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -243,7 +200,7 @@ func (x *ProcessMetrics) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProcessMetrics.ProtoReflect.Descriptor instead.
 func (*ProcessMetrics) Descriptor() ([]byte, []int) {
-	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{4}
+	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ProcessMetrics) GetName() string {
@@ -287,7 +244,7 @@ type WatchProcessResponse struct {
 
 func (x *WatchProcessResponse) Reset() {
 	*x = WatchProcessResponse{}
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[5]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -299,7 +256,7 @@ func (x *WatchProcessResponse) String() string {
 func (*WatchProcessResponse) ProtoMessage() {}
 
 func (x *WatchProcessResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[5]
+	mi := &file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -312,7 +269,7 @@ func (x *WatchProcessResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchProcessResponse.ProtoReflect.Descriptor instead.
 func (*WatchProcessResponse) Descriptor() ([]byte, []int) {
-	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{5}
+	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *WatchProcessResponse) GetStatus() bool {
@@ -354,9 +311,7 @@ var File_proto_v1_pulsewatch_pulsewatch_proto protoreflect.FileDescriptor
 
 const file_proto_v1_pulsewatch_pulsewatch_proto_rawDesc = "" +
 	"\n" +
-	"$proto/v1/pulsewatch/pulsewatch.proto\x12\rpulsewatch.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"%\n" +
-	"\x0fGetPulseRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\",\n" +
+	"$proto/v1/pulsewatch/pulsewatch.proto\x12\rpulsewatch.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\",\n" +
 	"\x10GetPulseResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\"'\n" +
 	"\x13WatchProcessRequest\x12\x10\n" +
@@ -376,10 +331,10 @@ const file_proto_v1_pulsewatch_pulsewatch_proto_rawDesc = "" +
 	"\x03pid\x18\x02 \x01(\x05R\x03pid\x126\n" +
 	"\tosMetrics\x18\x03 \x01(\v2\x18.pulsewatch.v1.osMetricsR\tosMetrics\x12E\n" +
 	"\x0eprocessMetrics\x18\x04 \x01(\v2\x1d.pulsewatch.v1.processMetricsR\x0eprocessMetrics\x128\n" +
-	"\ttimestamp\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp2\xb4\x01\n" +
+	"\ttimestamp\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp2\xac\x01\n" +
 	"\n" +
-	"PulseWatch\x12K\n" +
-	"\bGetPulse\x12\x1e.pulsewatch.v1.GetPulseRequest\x1a\x1f.pulsewatch.v1.GetPulseResponse\x12Y\n" +
+	"PulseWatch\x12C\n" +
+	"\bGetPulse\x12\x16.google.protobuf.Empty\x1a\x1f.pulsewatch.v1.GetPulseResponse\x12Y\n" +
 	"\fWatchProcess\x12\".pulsewatch.v1.WatchProcessRequest\x1a#.pulsewatch.v1.WatchProcessResponse0\x01B3Z1github.com/ydkulks/PulseWatch/proto/v1/pulsewatchb\x06proto3"
 
 var (
@@ -394,24 +349,24 @@ func file_proto_v1_pulsewatch_pulsewatch_proto_rawDescGZIP() []byte {
 	return file_proto_v1_pulsewatch_pulsewatch_proto_rawDescData
 }
 
-var file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_proto_v1_pulsewatch_pulsewatch_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_proto_v1_pulsewatch_pulsewatch_proto_goTypes = []any{
-	(*GetPulseRequest)(nil),      // 0: pulsewatch.v1.GetPulseRequest
-	(*GetPulseResponse)(nil),     // 1: pulsewatch.v1.GetPulseResponse
-	(*WatchProcessRequest)(nil),  // 2: pulsewatch.v1.WatchProcessRequest
-	(*OsMetrics)(nil),            // 3: pulsewatch.v1.osMetrics
-	(*ProcessMetrics)(nil),       // 4: pulsewatch.v1.processMetrics
-	(*WatchProcessResponse)(nil), // 5: pulsewatch.v1.WatchProcessResponse
-	(*timestamp.Timestamp)(nil),  // 6: google.protobuf.Timestamp
+	(*GetPulseResponse)(nil),     // 0: pulsewatch.v1.GetPulseResponse
+	(*WatchProcessRequest)(nil),  // 1: pulsewatch.v1.WatchProcessRequest
+	(*OsMetrics)(nil),            // 2: pulsewatch.v1.osMetrics
+	(*ProcessMetrics)(nil),       // 3: pulsewatch.v1.processMetrics
+	(*WatchProcessResponse)(nil), // 4: pulsewatch.v1.WatchProcessResponse
+	(*timestamp.Timestamp)(nil),  // 5: google.protobuf.Timestamp
+	(*empty.Empty)(nil),          // 6: google.protobuf.Empty
 }
 var file_proto_v1_pulsewatch_pulsewatch_proto_depIdxs = []int32{
-	3, // 0: pulsewatch.v1.WatchProcessResponse.osMetrics:type_name -> pulsewatch.v1.osMetrics
-	4, // 1: pulsewatch.v1.WatchProcessResponse.processMetrics:type_name -> pulsewatch.v1.processMetrics
-	6, // 2: pulsewatch.v1.WatchProcessResponse.timestamp:type_name -> google.protobuf.Timestamp
-	0, // 3: pulsewatch.v1.PulseWatch.GetPulse:input_type -> pulsewatch.v1.GetPulseRequest
-	2, // 4: pulsewatch.v1.PulseWatch.WatchProcess:input_type -> pulsewatch.v1.WatchProcessRequest
-	1, // 5: pulsewatch.v1.PulseWatch.GetPulse:output_type -> pulsewatch.v1.GetPulseResponse
-	5, // 6: pulsewatch.v1.PulseWatch.WatchProcess:output_type -> pulsewatch.v1.WatchProcessResponse
+	2, // 0: pulsewatch.v1.WatchProcessResponse.osMetrics:type_name -> pulsewatch.v1.osMetrics
+	3, // 1: pulsewatch.v1.WatchProcessResponse.processMetrics:type_name -> pulsewatch.v1.processMetrics
+	5, // 2: pulsewatch.v1.WatchProcessResponse.timestamp:type_name -> google.protobuf.Timestamp
+	6, // 3: pulsewatch.v1.PulseWatch.GetPulse:input_type -> google.protobuf.Empty
+	1, // 4: pulsewatch.v1.PulseWatch.WatchProcess:input_type -> pulsewatch.v1.WatchProcessRequest
+	0, // 5: pulsewatch.v1.PulseWatch.GetPulse:output_type -> pulsewatch.v1.GetPulseResponse
+	4, // 6: pulsewatch.v1.PulseWatch.WatchProcess:output_type -> pulsewatch.v1.WatchProcessResponse
 	5, // [5:7] is the sub-list for method output_type
 	3, // [3:5] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -430,7 +385,7 @@ func file_proto_v1_pulsewatch_pulsewatch_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_v1_pulsewatch_pulsewatch_proto_rawDesc), len(file_proto_v1_pulsewatch_pulsewatch_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

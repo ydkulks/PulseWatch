@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/ydkulks/PulseWatch/internal/config"
+	"github.com/ydkulks/PulseWatch/internal/logger"
 	"github.com/ydkulks/PulseWatch/internal/repository"
 	"github.com/ydkulks/PulseWatch/internal/service"
 	"github.com/ydkulks/PulseWatch/internal/service/notification"
@@ -28,16 +30,16 @@ func NewGRPCServer(cfg *config.Config) *GRPCServer {
 	}
 }
 
-func (s *GRPCServer) GetPulse(ctx context.Context, req *proto.GetPulseRequest) (*proto.GetPulseResponse, error) {
-	log.Printf("GetPulse request received: name=%s", req.Name)
+func (s *GRPCServer) GetPulse(ctx context.Context, req *empty.Empty) (*proto.GetPulseResponse, error) {
+	logger.Info("GetPulse request received")
 
 	response, err := s.service.GetPulse(ctx, req)
 	if err != nil {
-		log.Printf("Error in GetPulse: %v", err)
+		logger.Info("Error in GetPulse: %v", err)
 		return nil, fmt.Errorf("internal server error: %w", err)
 	}
 
-	log.Printf("GetPulse response sent: %s", response.Message)
+	logger.Info("GetPulse response sent: %s", response.Message)
 	return response, nil
 }
 

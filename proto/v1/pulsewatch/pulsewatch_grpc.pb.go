@@ -8,6 +8,7 @@ package pulsewatch
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -27,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PulseWatchClient interface {
-	GetPulse(ctx context.Context, in *GetPulseRequest, opts ...grpc.CallOption) (*GetPulseResponse, error)
+	GetPulse(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetPulseResponse, error)
 	WatchProcess(ctx context.Context, in *WatchProcessRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchProcessResponse], error)
 }
 
@@ -39,7 +40,7 @@ func NewPulseWatchClient(cc grpc.ClientConnInterface) PulseWatchClient {
 	return &pulseWatchClient{cc}
 }
 
-func (c *pulseWatchClient) GetPulse(ctx context.Context, in *GetPulseRequest, opts ...grpc.CallOption) (*GetPulseResponse, error) {
+func (c *pulseWatchClient) GetPulse(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetPulseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetPulseResponse)
 	err := c.cc.Invoke(ctx, PulseWatch_GetPulse_FullMethodName, in, out, cOpts...)
@@ -72,7 +73,7 @@ type PulseWatch_WatchProcessClient = grpc.ServerStreamingClient[WatchProcessResp
 // All implementations must embed UnimplementedPulseWatchServer
 // for forward compatibility.
 type PulseWatchServer interface {
-	GetPulse(context.Context, *GetPulseRequest) (*GetPulseResponse, error)
+	GetPulse(context.Context, *empty.Empty) (*GetPulseResponse, error)
 	WatchProcess(*WatchProcessRequest, grpc.ServerStreamingServer[WatchProcessResponse]) error
 	mustEmbedUnimplementedPulseWatchServer()
 }
@@ -84,7 +85,7 @@ type PulseWatchServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPulseWatchServer struct{}
 
-func (UnimplementedPulseWatchServer) GetPulse(context.Context, *GetPulseRequest) (*GetPulseResponse, error) {
+func (UnimplementedPulseWatchServer) GetPulse(context.Context, *empty.Empty) (*GetPulseResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetPulse not implemented")
 }
 func (UnimplementedPulseWatchServer) WatchProcess(*WatchProcessRequest, grpc.ServerStreamingServer[WatchProcessResponse]) error {
@@ -112,7 +113,7 @@ func RegisterPulseWatchServer(s grpc.ServiceRegistrar, srv PulseWatchServer) {
 }
 
 func _PulseWatch_GetPulse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPulseRequest)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -124,7 +125,7 @@ func _PulseWatch_GetPulse_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: PulseWatch_GetPulse_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PulseWatchServer).GetPulse(ctx, req.(*GetPulseRequest))
+		return srv.(PulseWatchServer).GetPulse(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

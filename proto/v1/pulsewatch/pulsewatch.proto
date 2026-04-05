@@ -5,15 +5,16 @@ package pulsewatch.v1;
 option go_package = "github.com/ydkulks/PulseWatch/proto/v1/pulsewatch";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 service PulseWatch {
-  rpc GetPulse (GetPulseRequest) returns (GetPulseResponse);
+  rpc GetPulse (google.protobuf.Empty) returns (GetPulseResponse);
   rpc WatchProcess (WatchProcessRequest) returns (stream WatchProcessResponse);
 }
 
-message GetPulseRequest {
-  string name = 1;
-}
+// message GetPulseRequest {
+//   string name = 1;
+// }
 
 message GetPulseResponse {
   string message = 1;

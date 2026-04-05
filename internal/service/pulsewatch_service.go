@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/ydkulks/PulseWatch/internal/config"
 	"github.com/ydkulks/PulseWatch/internal/repository"
 	"github.com/ydkulks/PulseWatch/internal/service/notification"
@@ -14,7 +15,7 @@ import (
 )
 
 type PulseWatchService interface {
-	GetPulse(ctx context.Context, req *proto.GetPulseRequest) (*proto.GetPulseResponse, error)
+	GetPulse(ctx context.Context, req *empty.Empty) (*proto.GetPulseResponse, error)
 	WatchProcess(ctx context.Context, req *proto.WatchProcessRequest) (*ProcessWatcher, error)
 }
 
@@ -36,9 +37,9 @@ type ProcessWatcher struct {
 	ticker *time.Ticker
 }
 
-func (s *pulseWatchService) GetPulse(ctx context.Context, req *proto.GetPulseRequest) (*proto.GetPulseResponse, error) {
+func (s *pulseWatchService) GetPulse(ctx context.Context, req *empty.Empty) (*proto.GetPulseResponse, error) {
 	return &proto.GetPulseResponse{
-		Message: fmt.Sprintf("Hello %s - PulseWatch service is running", req.Name),
+		Message: fmt.Sprintf("PulseWatch: Pong!!"),
 	}, nil
 }
 
